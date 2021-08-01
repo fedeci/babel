@@ -11,6 +11,8 @@ import type {
   OptionPath,
   RootPath,
 } from "./option-assertions";
+import type { ParserOptions } from "@babel/parser";
+import type { File } from "@babel/types";
 
 // Note: The casts here are just meant to be static assertions to make sure
 // that the assertion functions actually assert that the value's type matches
@@ -85,7 +87,11 @@ export type PluginObject = {
   post?: Function;
   inherits?: Function;
   visitor?: VisitorMap;
-  parserOverride?: Function;
+  parserOverride?: (
+    code: string,
+    parserOpts: ParserOptions,
+    parse: Function,
+  ) => File;
   generatorOverride?: Function;
 };
 

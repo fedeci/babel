@@ -1,4 +1,6 @@
 import type { PluginObject } from "./validation/plugins";
+import type { ParserOptions } from "@babel/parser";
+import type { File } from "@babel/types";
 
 export default class Plugin {
   key: string | undefined | null;
@@ -7,7 +9,11 @@ export default class Plugin {
   pre: Function | void;
   visitor: {};
 
-  parserOverride: Function | void;
+  parserOverride: (
+    code: string,
+    parserOpts: ParserOptions,
+    parse: Function,
+  ) => File | void;
   generatorOverride: Function | void;
 
   options: {};
