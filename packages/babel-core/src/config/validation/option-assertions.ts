@@ -20,6 +20,7 @@ import type {
   CallerMetadata,
   RootMode,
   TargetsListOrObject,
+  AssumptionsNames,
 } from "./options";
 
 import { assumptionsNames } from "./options";
@@ -446,7 +447,7 @@ function assertBrowserVersion(loc: GeneralPath, value: unknown) {
 export function assertAssumptions(
   loc: GeneralPath,
   value: unknown,
-): { [name: string]: boolean } | void {
+): Record<AssumptionsNames, boolean> | void {
   if (value === undefined) return;
 
   if (typeof value !== "object" || value === null) {
@@ -462,7 +463,7 @@ export function assertAssumptions(
 
   for (const name of Object.keys(value)) {
     const subLoc = access(loc, name);
-    if (!assumptionsNames.has(name)) {
+    if (!assumptionsNames.has(name as AssumptionsNames)) {
       throw new Error(`${msg(subLoc)} is not a supported assumption.`);
     }
     if (typeof value[name] !== "boolean") {

@@ -1,7 +1,7 @@
 import type { Targets } from "@babel/helper-compilation-targets";
 
 import type { ConfigContext } from "./config-chain";
-import type { CallerMetadata } from "./validation/options";
+import type { AssumptionsNames, CallerMetadata } from "./validation/options";
 
 export type { ConfigContext as FullConfig };
 
@@ -9,7 +9,7 @@ export type FullPreset = {
   targets: Targets;
 } & ConfigContext;
 export type FullPlugin = {
-  assumptions: { [name: string]: boolean };
+  assumptions: Record<AssumptionsNames, boolean>;
 } & FullPreset;
 
 // Context not including filename since it is used in places that cannot
@@ -22,7 +22,5 @@ export type SimplePreset = {
   targets: Targets;
 } & SimpleConfig;
 export type SimplePlugin = {
-  assumptions: {
-    [name: string]: boolean;
-  };
+  assumptions: Record<AssumptionsNames, boolean>;
 } & SimplePreset;

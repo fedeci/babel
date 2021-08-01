@@ -156,9 +156,7 @@ export type ValidatedOptions = {
   presets?: PluginList;
   plugins?: PluginList;
   passPerPreset?: boolean;
-  assumptions?: {
-    [name: string]: boolean;
-  };
+  assumptions?: Record<AssumptionsNames, boolean>;
   // browserslists-related options
   targets?: TargetsListOrObject;
   browserslistConfigFile?: ConfigFileSearch;
@@ -254,7 +252,7 @@ type EnvPath = Readonly<{
 
 export type NestingPath = RootPath | OverridesPath | EnvPath;
 
-export const assumptionsNames = new Set<string>([
+const _assumptionsNames = [
   "arrayLikeIsIterable",
   "constantReexports",
   "constantSuper",
@@ -275,7 +273,11 @@ export const assumptionsNames = new Set<string>([
   "setSpreadProperties",
   "skipForOfIteratorClosing",
   "superIsCallableConstructor",
-]);
+] as const;
+
+export type AssumptionsNames = typeof _assumptionsNames[number];
+
+export const assumptionsNames = new Set<AssumptionsNames>(_assumptionsNames);
 
 function getSource(loc: NestingPath): OptionsSource {
   return loc.type === "root" ? loc.source : getSource(loc.parent);
